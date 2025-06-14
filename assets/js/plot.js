@@ -1,26 +1,33 @@
 document.addEventListener('DOMContentLoaded', function() {
   const table = document.getElementById('geneTable');
-  const rows = table.querySelectorAll('tbody tr');
+  const rows = table?.querySelectorAll('tbody tr') || [];
+  console.log('✅ DOM loaded. Rows found in #geneTable:', rows.length);
+
   const data = [];
 
   rows.forEach(row => {
     const cells = row.querySelectorAll('td');
     const gene = cells[0].textContent.trim();
     const bf = parseFloat(cells[3].textContent);
-    console.log('Gene:', gene, '| BF_total:', bf);  // Debug output
     if (!isNaN(bf) && gene) {
       data.push({ gene, bf });
     }
   });
 
-  // DataTables enhancement: search, sort, pagination
-  $('#geneTable').DataTable({
-    pageLength: 10,
-    lengthMenu: [10, 25, 50, 100],
-    ordering: true,
-    searching: true
-  });
+  // 🧩 DataTables with paging, sorting, searching
+  if (typeof $ !== 'undefined' && $.fn.dataTable) {
+    $('#geneTable').DataTable({
+      pageLength: 10,
+      lengthMenu: [10, 25, 50, 100],
+      ordering: true,
+      searching: true
+    });
+    console.log('✅ DataTable initialized.');
+  } else {
+    console.warn('⚠️ jQuery or DataTables not loaded properly.');
+  }
 
+  // 📊 Plotly: top 10 BF genes
   const sorted = data.sort((a, b) => b.bf - a.bf).slice(0, 10);
 
   const trace = {
@@ -32,10 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const layout = {
     title: 'Top ASD Genes by Bayes Factor (log10 scale)',
-    xaxis: {
-      title: 'Gene',
-      tickangle: -45
-    },
+    xaxis: { title: 'Gene', tickangle: -45 },
     yaxis: { title: 'log10(BF.total)' }
   };
 
