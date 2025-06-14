@@ -1,6 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
   let fullData = [];
 
+  const modelColors = {
+    "Mouse": "#1f77b4",
+    "Drosophila": "#ff7f0e",
+    "Zebrafish": "#2ca02c",
+    "Rat": "#d62728",
+    "Organoid": "#9467bd",
+    "Primate": "#8c564b",
+    "Human cell": "#e377c2"
+  };
+
   function renderPlot(filteredData) {
     const sizes = filteredData.map(d => d.count);
     const maxSize = Math.max(...sizes);
@@ -15,9 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
         size: sizes.map(n => n * 6),
         sizemode: 'area',
         sizeref: maxSize > 0 ? (2.0 * maxSize) / (60 ** 2) : 1,
-        sizemin: 5,
-        color: filteredData.map(d => d.model),
-        colorscale: 'Set2',
+        sizemin: 6,
+        color: filteredData.map(d => modelColors[d.model] || "#7f7f7f"),
         line: { width: 1, color: '#333' }
       }
     };
@@ -54,17 +63,14 @@ document.addEventListener('DOMContentLoaded', function () {
       fullData = [];
 
       rows.forEach(line => {
-        const cols = line.split(",");
-        const gene = cols[0]?.trim();
+        const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);  // safely split CSV
+        const gene = cols[0]?.replace(/"/g, '').trim();
 
         models.forEach((model, i) => {
           let val = cols[6 + i];
-          if (val && val !== ".") {
-            const pmidList = val
-              .replace(/"/g, "")
-              .split(",")
-              .map(x => x.trim())
-              .filter(x => x !== "");
+          if (val && val !== "." && typeof val === "string") {
+            const clean = val.replace(/"/g, '');
+            const pmidList = clean.split(",").map(x => x.trim()).filter(x => x !== "");
             const count = pmidList.length;
             fullData.push({ gene, model, count, pmids: pmidList.join(", ") });
           }
