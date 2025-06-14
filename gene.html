@@ -6,6 +6,7 @@ title: Gene Details
 <h1>유전자 상세 정보</h1>
 <div id="gene-content">Loading...</div>
 
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
   const urlParams = new URLSearchParams(window.location.search);
   const geneName = urlParams.get('name');
@@ -17,7 +18,8 @@ title: Gene Details
         return res.text();
       })
       .then(markdown => {
-        document.getElementById('gene-content').innerText = markdown;
+        const html = marked.parse(markdown);
+        document.getElementById('gene-content').innerHTML = html;
       })
       .catch(err => {
         document.getElementById('gene-content').innerText = '❌ 유전자 정보를 찾을 수 없습니다.';
