@@ -1,9 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
-  function waitAndInitTable() {
+  function waitForJQueryAndInit() {
+    if (typeof $ === 'undefined' || !$.fn || !$.fn.DataTable) {
+      console.warn('⏳ Waiting for jQuery + DataTables...');
+      setTimeout(waitForJQueryAndInit, 100);
+      return;
+    }
+
     const $table = $('#geneTable');
     if ($table.length === 0) {
-      console.warn('⏳ Waiting for geneTable...');
-      setTimeout(waitAndInitTable, 100);
+      console.warn('⏳ Waiting for #geneTable...');
+      setTimeout(waitForJQueryAndInit, 100);
       return;
     }
 
@@ -14,9 +20,9 @@ document.addEventListener('DOMContentLoaded', function () {
         ordering: true,
         searching: true
       });
-      console.log('✅ DataTable forcibly initialized.');
+      console.log('✅ DataTable successfully initialized.');
     }
   }
 
-  waitAndInitTable();
+  waitForJQueryAndInit();
 });
