@@ -1,13 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
   const tableEl = document.getElementById('geneTable');
-  const plotEl = document.getElementById('bfPlot');
 
-  if (!tableEl || !plotEl) {
-    console.warn('⚠️ geneTable or bfPlot element not found.');
+  if (!tableEl) {
+    console.warn('⚠️ geneTable element not found.');
     return;
   }
 
-  // Initialize DataTable if needed
   if (typeof $ !== 'undefined' && $.fn.dataTable) {
     if (!$.fn.DataTable.isDataTable('#geneTable')) {
       $('#geneTable').DataTable({
@@ -16,43 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
         ordering: true,
         searching: true
       });
-      console.log('✅ DataTable initialized with search/sort');
+      console.log('✅ DataTable initialized with paging, search, and sort.');
     }
   } else {
-    console.warn('⚠️ jQuery or DataTables not loaded properly');
+    console.warn('⚠️ jQuery or DataTables not loaded.');
   }
-
-  // Plotly graph from ASD_female_qval
-  const rows = tableEl.querySelectorAll('tbody tr');
-  const data = [];
-
-  rows.forEach(row => {
-    const cells = row.querySelectorAll('td');
-    const gene = cells[0]?.textContent.trim();
-    const qval = parseFloat(cells[1]?.textContent);
-    if (!isNaN(qval) && qval > 0) {
-      data.push({ gene, logq: -Math.log10(qval) });
-    }
-  });
-
-  if (data.length === 0) {
-    console.warn('⚠️ No valid data for plotting.');
-    return;
-  }
-
-  const sorted = data.sort((a, b) => b.logq - a.logq).slice(0, 10);
-  const trace = {
-    x: sorted.map(d => d.gene),
-    y: sorted.map(d => d.logq),
-    type: 'bar',
-    name: '-log10(ASD_female_qval)'
-  };
-
-  const layout = {
-    title: 'Top ASD Female-associated Genes (by -log10(q))',
-    xaxis: { title: 'Gene', tickangle: -45 },
-    yaxis: { title: '-log10(q)' }
-  };
-
-  Plotly.newPlot('bfPlot', [trace], layout);
 });
