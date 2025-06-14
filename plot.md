@@ -10,3 +10,4 @@ permalink: /plot/
 <div id="bfPlot" style="width:100%; height:500px;"></div>
 
 <script src="{{ '/assets/js/plot.js' | relative_url }}"></script>
+
