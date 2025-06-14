@@ -1,5 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
   const tableEl = document.getElementById('geneTable');
+
+  // ✅ Force DataTable setup
+  if (typeof $ !== 'undefined' && $.fn.dataTable) {
+    if (!$.fn.DataTable.isDataTable('#geneTable')) {
+      $('#geneTable').DataTable({
+        pageLength: 10,
+        lengthMenu: [10, 25, 50, 100],
+        ordering: true,
+        searching: true
+      });
+      console.log('✅ DataTable initialized with search/sort');
+    }
+  } else {
+    console.warn('⚠️ jQuery or DataTables not loaded properly');
+  }
+
+  // 📊 Plot based on ASD_female_qval
   const rows = tableEl?.querySelectorAll('tbody tr') || [];
   const data = [];
 
