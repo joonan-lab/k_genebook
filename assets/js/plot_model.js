@@ -49,8 +49,14 @@ document.addEventListener('DOMContentLoaded', function () {
     plot.on('plotly_click', function (data) {
       const gene = data.points[0].x;
       const model = data.points[0].y;
-      const pmids = data.points[0].customdata;
-      const msg = `<b>${gene}</b> (${model})<br>PMIDs: ${pmids || 'N/A'}`;
+      const pmidRaw = data.points[0].customdata || "";
+      const pmidLinks = pmidRaw
+        .split(',')
+        .map(id => id.trim())
+        .filter(id => id !== "")
+        .map(id => `<a href="https://pubmed.ncbi.nlm.nih.gov/${id}" target="_blank">${id}</a>`)
+        .join(', ');
+      const msg = `<b>${gene}</b> (${model})<br>PMIDs: ${pmidLinks || 'N/A'}`;
       document.getElementById('pmidInfo').innerHTML = msg;
     });
   }
