@@ -1,2 +1,3 @@
-title: K-GeneBook
-markdown: kramdown
+collections:
+  genes:
+    output: true
