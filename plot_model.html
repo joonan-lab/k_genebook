@@ -5,24 +5,18 @@ title: Model-Based Plot
 
 {% include navbar.html %}
 
-<h1>Model-Based Gene Plot (준비 중)</h1>
-<div id="modelPlot" style="width:100%; height:500px;"></div>
+<h1>🧬 모델 기반 유전자 연구 시각화</h1>
 
-<script>
-// 예시 placeholder plot
-document.addEventListener('DOMContentLoaded', function () {
-  const trace = {
-    x: ["Mouse", "Drosophila", "Zebrafish", "Rat", "Organoid", "Primate", "Human cell"],
-    y: [42, 18, 15, 12, 10, 8, 6],
-    type: 'bar'
-  };
+<!-- 필터 입력창 -->
+<div style="margin-bottom: 10px;">
+  <label>🔍 유전자 또는 모델 이름 필터:</label>
+  <input type="text" id="filterInput" placeholder="예: SCN2A 또는 Mouse" style="width: 300px;">
+</div>
 
-  const layout = {
-    title: "Number of Genes Studied per Model Type",
-    xaxis: { title: "Model Type" },
-    yaxis: { title: "Gene Count" }
-  };
+<!-- 그래프 영역 -->
+<div id="modelPlot" style="width:100%; height:700px;"></div>
 
-  Plotly.newPlot("modelPlot", [trace], layout);
-});
-</script>
+<!-- 클릭된 PMID 정보 출력 -->
+<div id="pmidInfo" style="margin-top: 20px; font-size: 14px; color: #444;"></div>
+
+<script src="{{ '/assets/js/plot_model.js' | relative_url }}"></script>
