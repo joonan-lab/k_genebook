@@ -1,0 +1,48 @@
+<table id="geneTable" class="display">
+  <thead>
+    <tr>
+      <th>Gene</th>
+      <th>ASD_female_qval</th>
+      <th>ASD_male_qval</th>
+      <th>FDR_TADA_ASD</th>
+      <th>FDR_TADA_DD</th>
+      <th>FDR_TADA_NDD</th>
+      <th>Mouse</th>
+      <th>Drosophila</th>
+      <th>Zebrafish</th>
+      <th>Rat</th>
+      <th>Primate</th>
+      <th>Organoid</th>
+      <th>Human cell</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for gene in site.data.gene_data %}
+    <tr>
+      <td>
+        {% if gene.gene == "SCN2A" %}
+          <a href="https://www.notion.so/example-scn2a" target="_blank">SCN2A</a>
+        {% elsif gene.gene == "CHD8" %}
+          <a href="https://www.notion.so/example-chd8" target="_blank">CHD8</a>
+        {% elsif gene.gene == "PTEN" %}
+          <a href="https://www.notion.so/example-pten" target="_blank">PTEN</a>
+        {% else %}
+          {{ gene.gene }}
+        {% endif %}
+      </td>
+      <td>{{ gene.ASD_female_qval }}</td>
+      <td>{{ gene.ASD_male_qval }}</td>
+      <td>{{ gene.FDR_TADA_ASD }}</td>
+      <td>{{ gene.FDR_TADA_DD }}</td>
+      <td>{{ gene.FDR_TADA_NDD }}</td>
+      <td>{{ gene.Mouse }}</td>
+      <td>{{ gene.Drosophila }}</td>
+      <td>{{ gene.Zebrafish }}</td>
+      <td>{{ gene.Rat }}</td>
+      <td>{{ gene.Primate }}</td>
+      <td>{{ gene.Organoid }}</td>
+      <td>{{ gene["Human cell"] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
