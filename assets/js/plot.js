@@ -1,7 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
   const tableEl = document.getElementById('geneTable');
+  const plotEl = document.getElementById('bfPlot');
 
-  // ✅ Force DataTable setup
+  if (!tableEl || !plotEl) {
+    console.warn('⚠️ geneTable or bfPlot element not found.');
+    return;
+  }
+
+  // Initialize DataTable if needed
   if (typeof $ !== 'undefined' && $.fn.dataTable) {
     if (!$.fn.DataTable.isDataTable('#geneTable')) {
       $('#geneTable').DataTable({
@@ -16,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
     console.warn('⚠️ jQuery or DataTables not loaded properly');
   }
 
-  // 📊 Plot based on ASD_female_qval
-  const rows = tableEl?.querySelectorAll('tbody tr') || [];
+  // Plotly graph from ASD_female_qval
+  const rows = tableEl.querySelectorAll('tbody tr');
   const data = [];
 
   rows.forEach(row => {
@@ -29,8 +35,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  const sorted = data.sort((a, b) => b.logq - a.logq).slice(0, 10);
+  if (data.length === 0) {
+    console.warn('⚠️ No valid data for plotting.');
+    return;
+  }
 
+  const sorted = data.sort((a, b) => b.logq - a.logq).slice(0, 10);
   const trace = {
     x: sorted.map(d => d.gene),
     y: sorted.map(d => d.logq),
