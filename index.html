@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-GeneBook: ASD Gene Priorities</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.10.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <h1>K-GeneBook: 한국인 ASD 가족에서 유래한 유전자 우선순위</h1>
+
+  <section>
+    <h2>유전자 우선순위 테이블</h2>
+    <table id="geneTable" class="display" style="width:100%">
+      <thead>
+        <tr>
+          <th>Gene</th>
+          <th>BF_cls1</th>
+          <th>BF_cls2</th>
+          <th>BF_total</th>
+          <th>qval</th>
+          <th>pval</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>BF.total 기준 상위 유전자 시각화</h2>
+    <div id="bfPlot" style="width:100%;height:500px;"></div>
+  </section>
+
+  <script>
+    function normalizeKeys(row) {
+      return {
+        gene: row["gene"],
+        BF_cls1: row["BF.cls1"],
+        BF_cls2: row["BF.cls2"],
+        BF_total: row["BF.total"],
+        qval: row["qval"],
+        pval: row["pval"]
+      };
+    }
+
+    function loadCSVAndRender() {
+      Papa.parse("gene_data.csv", {
+        download: true,
+        header: true,
+        dynamicTyping: true,
+        complete: function(results) {
+          const raw = results.data.filter(row => row["gene"] && row["BF.total"]);
+          const geneData = raw.map(normalizeKeys);
+
+          // DataTable 초기화
+          $('#geneTable').DataTable({
+            data: geneData,
+            columns: [
+              { data: 'gene' },
+              { data: 'BF_cls1' },
+              { data: 'BF_cls2' },
+              { data: 'BF_total' },
+              { data: 'qval' },
+              { data: 'pval' }
+            ]
+          });
+
+          // Plotly 시각화 (상위 10개)
+          const sortedGenes = [...geneData].sort((a, b) => b.BF_total - a.BF_total).slice(0, 10);
+          const trace = {
+            x: sortedGenes.map(g => g.gene),
+            y: sortedGenes.map(g => Math.log10(g.BF_total)),
+            type: 'bar',
+            name: 'log10(BF_total)'
+          };
+          const layout = {
+            title: 'Top ASD Genes by Bayes Factor (log10 scale)',
+            xaxis: { title: 'Gene' },
+            yaxis: { title: 'log10(BF_total)' }
+          };
+          Plotly.newPlot('bfPlot', [trace], layout);
+        }
+      });
+    }
+
+    $(document).ready(function() {
+      loadCSVAndRender();
+    });
+  </script>
+</body>
+</html>
