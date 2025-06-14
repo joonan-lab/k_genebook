@@ -1,3 +1,14 @@
+{% assign notion_links = 
+  "SCN2A:https://www.notion.so/example-scn2a,
+   CHD8:https://www.notion.so/example-chd8,
+   PTEN:https://www.notion.so/example-pten" | split: "," %}
+
+{% assign notion_map = {} %}
+{% for item in notion_links %}
+  {% assign pair = item | split: ":" %}
+  {% assign notion_map = notion_map | merge: { pair[0]: pair[1] } %}
+{% endfor %}
+
 <table id="geneTable" class="display">
   <thead>
     <tr>
@@ -5,12 +16,11 @@
     </tr>
   </thead>
   <tbody>
-    {% assign detailed_genes = "SCN2A,CHD8,PTEN" | split: "," %}
     {% for gene in site.data.gene_data %}
     <tr>
       <td>
-        {% if detailed_genes contains gene.gene %}
-          <a href="/gene.html?name={{ gene.gene }}">{{ gene.gene }}</a>
+        {% if notion_map[gene.gene] %}
+          <a href="{{ notion_map[gene.gene] }}" target="_blank">{{ gene.gene }}</a>
         {% else %}
           {{ gene.gene }}
         {% endif %}
