@@ -14,20 +14,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // 🧩 DataTables with paging, sorting, searching
+  // 🧩 DataTables: only initialize if not already active
   if (typeof $ !== 'undefined' && $.fn.dataTable) {
-    $('#geneTable').DataTable({
-      pageLength: 10,
-      lengthMenu: [10, 25, 50, 100],
-      ordering: true,
-      searching: true
-    });
-    console.log('✅ DataTable initialized.');
+    if (!$.fn.DataTable.isDataTable('#geneTable')) {
+      $('#geneTable').DataTable({
+        pageLength: 10,
+        lengthMenu: [10, 25, 50, 100],
+        ordering: true,
+        searching: true
+      });
+      console.log('✅ DataTable initialized.');
+    } else {
+      console.warn('⚠️ DataTable was already initialized.');
+    }
   } else {
     console.warn('⚠️ jQuery or DataTables not loaded properly.');
   }
 
-  // 📊 Plotly: top 10 BF genes
+  // 📊 Plotly visualization: Top 10 genes
   const sorted = data.sort((a, b) => b.bf - a.bf).slice(0, 10);
 
   const trace = {
