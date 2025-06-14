@@ -5,9 +5,16 @@
     </tr>
   </thead>
   <tbody>
+    {% assign detailed_genes = "SCN2A,CHD8,PTEN" | split: "," %}
     {% for gene in site.data.gene_data %}
     <tr>
-      <td>{{ gene.gene }}</td>
+      <td>
+        {% if detailed_genes contains gene.gene %}
+          <a href="/genes/{{ gene.gene }}.html">{{ gene.gene }}</a>
+        {% else %}
+          {{ gene.gene }}
+        {% endif %}
+      </td>
       <td>{{ gene["BF.cls1"] }}</td>
       <td>{{ gene["BF.cls2"] }}</td>
       <td>{{ gene["BF.total"] }}</td>
