@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', function () {
       customdata: filteredData.map(d => d.pmids),
       mode: 'markers',
       marker: {
-        size: sizes.map(n => n * 8),
+        size: sizes.map(n => n * 6),
         sizemode: 'area',
         sizeref: maxSize > 0 ? (2.0 * maxSize) / (60 ** 2) : 1,
-        sizemin: 6,
+        sizemin: 5,
         color: filteredData.map(d => d.model),
         colorscale: 'Set2',
-        line: { width: 1, color: '#444' }
+        line: { width: 1, color: '#333' }
       }
     };
 
@@ -58,9 +58,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const gene = cols[0]?.trim();
 
         models.forEach((model, i) => {
-          const val = cols[6 + i];
+          let val = cols[6 + i];
           if (val && val !== ".") {
-            const pmidList = val.split(",").map(x => x.trim()).filter(x => x !== "");
+            const pmidList = val
+              .replace(/"/g, "")
+              .split(",")
+              .map(x => x.trim())
+              .filter(x => x !== "");
             const count = pmidList.length;
             fullData.push({ gene, model, count, pmids: pmidList.join(", ") });
           }
