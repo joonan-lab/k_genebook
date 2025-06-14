@@ -1,0 +1,26 @@
+---
+layout: default
+title: Gene Details
+---
+
+<h1>유전자 상세 정보</h1>
+<div id="gene-content">Loading...</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const geneName = urlParams.get('name');
+
+  if (geneName) {
+    fetch(`/data/gene_pages/gene_${geneName}.md`)
+      .then(res => {
+        if (!res.ok) throw new Error('Not found');
+        return res.text();
+      })
+      .then(markdown => {
+        document.getElementById('gene-content').innerText = markdown;
+      })
+      .catch(err => {
+        document.getElementById('gene-content').innerText = '❌ 유전자 정보를 찾을 수 없습니다.';
+      });
+  }
+</script>
