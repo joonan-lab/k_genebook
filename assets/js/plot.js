@@ -1,20 +1,17 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const table = document.getElementById('geneTable');
-  const rows = table?.querySelectorAll('tbody tr') || [];
-  console.log('✅ DOM loaded. Rows found in #geneTable:', rows.length);
 
-  const data = [];
+document.addEventListener('DOMContentLoaded', function () {
+  const tableEl = document.getElementById('geneTable');
+  const plotEl = document.getElementById('bfPlot');
+  if (!tableEl) {
+    console.error('❌ #geneTable not found in DOM');
+    return;
+  }
+  if (!plotEl) {
+    console.error('❌ #bfPlot not found in DOM');
+    return;
+  }
 
-  rows.forEach(row => {
-    const cells = row.querySelectorAll('td');
-    const gene = cells[0].textContent.trim();
-    const bf = parseFloat(cells[3].textContent);
-    if (!isNaN(bf) && gene) {
-      data.push({ gene, bf });
-    }
-  });
-
-  // 🧩 DataTables: only initialize if not already active
+  // ⛳ DataTable 초기화
   if (typeof $ !== 'undefined' && $.fn.dataTable) {
     if (!$.fn.DataTable.isDataTable('#geneTable')) {
       $('#geneTable').DataTable({
@@ -24,28 +21,41 @@ document.addEventListener('DOMContentLoaded', function() {
         searching: true
       });
       console.log('✅ DataTable initialized.');
-    } else {
-      console.warn('⚠️ DataTable was already initialized.');
     }
   } else {
     console.warn('⚠️ jQuery or DataTables not loaded properly.');
   }
 
-  // 📊 Plotly visualization: Top 10 genes
-  const sorted = data.sort((a, b) => b.bf - a.bf).slice(0, 10);
+  // 🎯 Plotly 시각화 (상위 10개 gene)
+  const rows = tableEl.querySelectorAll('tbody tr');
+  const data = [];
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    if (cells.length >= 4) {
+      const gene = cells[0].textContent.trim();
+      const bf = parseFloat(cells[3].textContent);
+      if (!isNaN(bf)) {
+        data.push({ gene, bf });
+      }
+    }
+  });
 
-  const trace = {
+  if (data.length === 0) {
+    console.warn('⚠️ No valid data found for plotting.');
+    return;
+  }
+
+  const sorted = data.sort((a, b) => b.bf - a.bf).slice(0, 10);
+  Plotly.newPlot('bfPlot', [{
     x: sorted.map(d => d.gene),
     y: sorted.map(d => Math.log10(d.bf)),
     type: 'bar',
-    name: 'log10(BF_total)'
-  };
-
-  const layout = {
+    name: 'log10(BF.total)'
+  }], {
     title: 'Top ASD Genes by Bayes Factor (log10 scale)',
     xaxis: { title: 'Gene', tickangle: -45 },
     yaxis: { title: 'log10(BF.total)' }
-  };
+  });
 
-  Plotly.newPlot('bfPlot', [trace], layout);
+  console.log('✅ Plotly rendered with', sorted.length, 'genes');
 });
