@@ -1,0 +1,28 @@
+---
+layout: default
+title: Model-Based Plot
+---
+
+{% include navbar.html %}
+
+<h1>Model-Based Gene Plot (준비 중)</h1>
+<div id="modelPlot" style="width:100%; height:500px;"></div>
+
+<script>
+// 예시 placeholder plot
+document.addEventListener('DOMContentLoaded', function () {
+  const trace = {
+    x: ["Mouse", "Drosophila", "Zebrafish", "Rat", "Organoid", "Primate", "Human cell"],
+    y: [42, 18, 15, 12, 10, 8, 6],
+    type: 'bar'
+  };
+
+  const layout = {
+    title: "Number of Genes Studied per Model Type",
+    xaxis: { title: "Model Type" },
+    yaxis: { title: "Gene Count" }
+  };
+
+  Plotly.newPlot("modelPlot", [trace], layout);
+});
+</script>
