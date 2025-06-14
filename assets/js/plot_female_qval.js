@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  fetch("gene_data.csv")
+  fetch("/k_genebook/gene_data.csv")  // 절대경로이지만 GitHub Pages repo에 맞춤
     .then(res => res.text())
     .then(text => {
       const rows = text.split("\n").slice(1).filter(r => r.trim() !== "");
