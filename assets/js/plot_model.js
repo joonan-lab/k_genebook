@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
   let fullData = [];
 
   function renderPlot(filteredData) {
+    const sizes = filteredData.map(d => d.count);
+    const maxSize = Math.max(...sizes);
+
     const trace = {
       x: filteredData.map(d => d.gene),
       y: filteredData.map(d => d.model),
@@ -9,20 +12,26 @@ document.addEventListener('DOMContentLoaded', function () {
       customdata: filteredData.map(d => d.pmids),
       mode: 'markers',
       marker: {
-        size: filteredData.map(d => d.count * 5),
+        size: sizes.map(n => n * 8),
         sizemode: 'area',
-        sizeref: 2.0 * Math.max(...filteredData.map(d => d.count)) / (60 ** 2),
-        sizemin: 5,
+        sizeref: maxSize > 0 ? (2.0 * maxSize) / (60 ** 2) : 1,
+        sizemin: 6,
         color: filteredData.map(d => d.model),
-        line: { width: 1, color: '#333' }
+        colorscale: 'Set2',
+        line: { width: 1, color: '#444' }
       }
     };
 
     const layout = {
       title: 'Gene × Model Bubble Chart (Bubble Size = #PMIDs)',
       xaxis: { title: 'Gene', tickangle: -45 },
-      yaxis: { title: 'Model Type', categoryorder: 'array', categoryarray: ["Mouse", "Drosophila", "Zebrafish", "Rat", "Organoid", "Primate", "Human cell"] },
-      height: 700
+      yaxis: {
+        title: 'Model Type',
+        categoryorder: 'array',
+        categoryarray: ["Mouse", "Drosophila", "Zebrafish", "Rat", "Organoid", "Primate", "Human cell"]
+      },
+      height: 700,
+      showlegend: false
     };
 
     Plotly.newPlot('modelPlot', [trace], layout);
@@ -49,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const gene = cols[0]?.trim();
 
         models.forEach((model, i) => {
-          const val = cols[6 + i]; // assuming 0~5 are qvals and FDRs
+          const val = cols[6 + i];
           if (val && val !== ".") {
             const pmidList = val.split(",").map(x => x.trim()).filter(x => x !== "");
             const count = pmidList.length;
