@@ -1,0 +1,19 @@
+<table id="geneTable" class="display">
+  <thead>
+    <tr>
+      <th>Gene</th><th>BF.cls1</th><th>BF.cls2</th><th>BF.total</th><th>qval</th><th>pval</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for gene in site.data.gene_data %}
+    <tr>
+      <td>{{ gene.gene }}</td>
+      <td>{{ gene["BF.cls1"] }}</td>
+      <td>{{ gene["BF.cls2"] }}</td>
+      <td>{{ gene["BF.total"] }}</td>
+      <td>{{ gene.qval }}</td>
+      <td>{{ gene.pval }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
