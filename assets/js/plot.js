@@ -1,22 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const tableEl = document.getElementById('geneTable');
+  function waitAndInitTable() {
+    const $table = $('#geneTable');
+    if ($table.length === 0) {
+      console.warn('⏳ Waiting for geneTable...');
+      setTimeout(waitAndInitTable, 100);
+      return;
+    }
 
-  if (!tableEl) {
-    console.warn('⚠️ geneTable element not found.');
-    return;
-  }
-
-  if (typeof $ !== 'undefined' && $.fn.dataTable) {
     if (!$.fn.DataTable.isDataTable('#geneTable')) {
-      $('#geneTable').DataTable({
+      $table.DataTable({
         pageLength: 10,
         lengthMenu: [10, 25, 50, 100],
         ordering: true,
         searching: true
       });
-      console.log('✅ DataTable initialized with paging, search, and sort.');
+      console.log('✅ DataTable forcibly initialized.');
     }
-  } else {
-    console.warn('⚠️ jQuery or DataTables not loaded.');
   }
+
+  waitAndInitTable();
 });
