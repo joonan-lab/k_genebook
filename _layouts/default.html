@@ -5,6 +5,28 @@
   <title>{{ page.title }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- Google Fonts for Korean and English -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Noto+Serif+KR&display=swap" rel="stylesheet">
+
+  <!-- Global Font Styles -->
+  <style>
+    body {
+      font-family: 'Noto Sans KR', 'Helvetica Neue', 'Segoe UI', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Noto Serif KR', 'Georgia', serif;
+      color: #111;
+    }
+
+    table {
+      font-size: 14px;
+    }
+  </style>
+
   <!-- jQuery + DataTables -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
@@ -13,11 +35,10 @@
   <!-- Plotly -->
   <script src="https://cdn.plot.ly/plotly-2.10.0.min.js"></script>
 
-  {{ content_for_head }}
+  <!-- CSV Parser -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
 <body>
-  <main class="container">
-    {{ content }}
-  </main>
+  {{ content }}
 </body>
 </html>
