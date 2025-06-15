@@ -5,12 +5,28 @@ title: Model-Based Plot
 
 {% include navbar.html %}
 
-<h1>🧬 모델 기반 유전자 연구 시각화</h1>
+<h1>🧬 Model-Based Validation of ASD Genes</h1>
+
+<p style="margin-bottom: 15px; font-size: 15px;">
+  This page presents an interactive bubble chart showing experimental validation of autism-associated genes across different model systems.  
+  Each bubble represents a unique gene–model pair. The size of each bubble indicates the number of published functional studies (based on PubMed IDs), and the color indicates the type of model organism used.  
+  Data are compiled from manual curation and sources including Fu et al. (2022, <i>Nature Genetics</i>)  
+  [<a href="https://pubmed.ncbi.nlm.nih.gov/35982160/" target="_blank">PMID: 35982160</a>].  
+  Click on any bubble to view associated PMIDs with direct links to PubMed.
+</p>
+
+<ul style="font-size: 14px;">
+  <li><strong>X-axis</strong>: Gene symbol</li>
+  <li><strong>Y-axis</strong>: Model organism (e.g., Mouse, Zebrafish, Organoid)</li>
+  <li><strong>Bubble size</strong>: Number of functional studies (PMIDs)</li>
+  <li><strong>Bubble color</strong>: Model type</li>
+  <li><strong>Search box</strong>: Filter by gene or model name</li>
+</ul>
 
 <!-- 필터 입력창 -->
-<div style="margin-bottom: 10px;">
-  <label>🔍 유전자 또는 모델 이름 필터:</label>
-  <input type="text" id="filterInput" placeholder="예: SCN2A 또는 Mouse" style="width: 300px;">
+<div style="margin-top: 20px; margin-bottom: 10px;">
+  <label>🔍 Filter by gene or model:</label>
+  <input type="text" id="filterInput" placeholder="e.g., SCN2A or Mouse" style="width: 300px;">
 </div>
 
 <!-- 그래프 영역 -->

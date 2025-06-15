@@ -1,22 +1,30 @@
 ---
 layout: default
-title: K-GeneBook Table
+title: K-GeneBook
 ---
 
 {% include navbar.html %}
 
-# K-GeneBook: 한국인 ASD 유전자 우선순위
 
-한국인 자폐증(ASD) 가족 유전체 분석 및 기능 연구 데이터를 기반으로 정리한 유전자 우선순위 테이블입니다.  
-각 열의 의미는 아래와 같습니다:
+# K-GeneBook: Prioritized ASD Genes from Korean Families
 
-- **gene**: 유전자 이름  
-- **ASD_female_qval**: 여성 ASD 환자 기반 유의성 (q-value)  
-- **ASD_male_qval**: 남성 ASD 환자 기반 유의성 (q-value)  
-- **FDR_TADA_ASD**: Fu 2022 연구의 TADA 기반 ASD FDR  
-- **FDR_TADA_DD**: Fu 2022 연구의 TADA 기반 발달장애(DD) FDR  
-- **FDR_TADA_NDD**: Fu 2022 연구의 TADA 기반 신경발달장애(NDD) FDR  
-- **Mouse, Drosophila, ...**: 각 모델 생물종에서 기능연구가 수행된 경우 관련 PMID. 없으면 `.` 으로 표시됨
+This page presents a curated table of genes prioritized from whole-genome sequencing (WGS) analysis of Korean autism spectrum disorder (ASD) families.  
+Statistical enrichment was calculated separately for females and males, based on ASD-specific gene expression, as described in Kim et al. (2024, *Genome Medicine*) [PMID: [39334436](https://pubmed.ncbi.nlm.nih.gov/39334436/)].  
+Additional functional validation status was cross-referenced with TADA-based FDR values from Fu et al. (2022, *Nature Genetics*) [PMID: [35982160](https://pubmed.ncbi.nlm.nih.gov/35982160/)].
+
+Each row corresponds to a gene, and each column summarizes statistical or functional evidence, including model organism studies (with PubMed IDs) if available.
+
+### Column Descriptions:
+
+- **gene**: Official gene symbol  
+- **ASD_female_qval**: q-value for ASD gene enrichment in female probands (lower is more significant)  
+- **ASD_male_qval**: q-value for ASD gene enrichment in male probands  
+- **FDR_TADA_ASD**: False discovery rate (FDR) for ASD association from Fu et al. (2022)  
+- **FDR_TADA_DD**: FDR for developmental disorders (DD)  
+- **FDR_TADA_NDD**: FDR for broader neurodevelopmental disorders (NDD)  
+- **Mouse**, **Drosophila**, **Zebrafish**, **Rat**, **Primate**, **Organoid**, **Human cell**:  
+  PubMed IDs (PMIDs) for functional studies using the corresponding model system. If no study is available, the field is marked as `.`.
+
 
 
 {% include gene_table.html %}
