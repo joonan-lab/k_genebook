@@ -1,6 +1,7 @@
 import { HashRouter, Routes, Route } from "react-router-dom"
 import { ThemeProvider } from "@/context/ThemeContext"
 import { Layout } from "@/components/Layout"
+import { LandingPage } from "@/pages/LandingPage"
 import { HomePage } from "@/pages/HomePage"
 import { DashboardPage } from "@/pages/DashboardPage"
 import { RankingPage } from "@/pages/RankingPage"
@@ -18,7 +19,8 @@ export default function App() {
       <HashRouter>
         <Routes>
           <Route element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/table" element={<HomePage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/ranking" element={<RankingPage />} />
             <Route path="/sex-plot" element={<SexPlotPage />} />

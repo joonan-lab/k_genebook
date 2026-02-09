@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 const navLinks = [
-  { to: "/", label: "Gene Table" },
+  { to: "/", label: "Home" },
+  { to: "/table", label: "Gene Table" },
   { to: "/dashboard", label: "Dashboard" },
   { to: "/ranking", label: "Ranking" },
   { to: "/sex-plot", label: "Sex Risk Plot" },
