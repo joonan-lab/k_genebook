@@ -25,7 +25,8 @@ export function HomePage() {
       <div>
         <h1 className="text-2xl font-bold">Gene Table</h1>
         <p className="text-sm text-muted-foreground">
-          ASD gene data from Korean families &mdash; {data.length.toLocaleString()} genes
+          {data.length.toLocaleString()} genes from Korean families, SSC, SPARK &amp; MSSNG cohorts
+          (<a href="https://pubmed.ncbi.nlm.nih.gov/39334436/" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Kim et al., Genome Med 2024</a>)
         </p>
       </div>
       <GeneTable data={data} />

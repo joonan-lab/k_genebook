@@ -100,7 +100,7 @@ export function DashboardPage() {
       <div>
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <p className="text-sm text-muted-foreground">
-          Overview of {stats.total.toLocaleString()} genes in the K-GeneBook dataset
+          {stats.total.toLocaleString()} genes from Korean families, SSC, SPARK &amp; MSSNG cohorts (Kim et al., <em>Genome Med</em> 2024)
         </p>
       </div>
 

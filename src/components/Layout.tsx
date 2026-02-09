@@ -9,7 +9,7 @@ export function Layout() {
         <Outlet />
       </main>
       <footer className="border-t py-4 text-center text-sm text-muted-foreground">
-        K-GeneBook &mdash; ASD Gene Data from Korean Families
+        K-GeneBook &mdash; Kim et al., <em>Genome Med</em> 2024 (<a href="https://pubmed.ncbi.nlm.nih.gov/39334436/" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">PMID: 39334436</a>)
       </footer>
     </div>
   )
