@@ -11,6 +11,7 @@ import { ModelPlotPage } from "@/pages/ModelPlotPage"
 import { HeatmapPage } from "@/pages/HeatmapPage"
 import { FdrComparisonPage } from "@/pages/FdrComparisonPage"
 import { UpsetPage } from "@/pages/UpsetPage"
+import { ComorbidityPage } from "@/pages/ComorbidityPage"
 import { GeneDetailPage } from "@/pages/GeneDetailPage"
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="/heatmap" element={<HeatmapPage />} />
             <Route path="/fdr-compare" element={<FdrComparisonPage />} />
             <Route path="/upset" element={<UpsetPage />} />
+            <Route path="/comorbidity" element={<ComorbidityPage />} />
             <Route path="/gene/:geneSymbol" element={<GeneDetailPage />} />
           </Route>
         </Routes>

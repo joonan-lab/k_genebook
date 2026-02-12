@@ -16,6 +16,7 @@ const navLinks = [
   { to: "/heatmap", label: "Heatmap" },
   { to: "/fdr-compare", label: "FDR Compare" },
   { to: "/upset", label: "UpSet Plot" },
+  { to: "/comorbidity", label: "Comorbidity" },
 ]
 
 export function Navbar() {
